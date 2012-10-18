@@ -77,6 +77,9 @@ public class SystemInfo {
         String [] line;
         int start = 0, end = 0;
         while ((line = reader.readNext()) != null) {
+            System.out.println("line is " + line.toString());
+            System.out.println("start is " + start);
+            System.out.println("end is " + end);
           start = Integer.parseInt(line[0]);
             end = Integer.parseInt(line[1]);
 
