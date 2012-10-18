@@ -4,10 +4,9 @@ import au.com.bytecode.opencsv.CSVReader;
 import org.slf4j.Logger;
 
 import javax.management.*;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.lang.management.ManagementFactory;
+import java.util.StringTokenizer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +72,7 @@ public class SystemInfo {
     }
 
     public int getEphemeralPortCountLinux() throws IOException {
-        CSVReader reader = new CSVReader(new FileReader("/proc/sys/net/ipv4/ip_local_port_range"), ' ');
+        CSVReader reader = new CSVReader(new FileReader("/proc/sys/net/ipv4/ip_local_port_range"), '\t');
         String [] line;
         int start = 0, end = 0;
         while ((line = reader.readNext()) != null) {
@@ -84,6 +83,14 @@ public class SystemInfo {
             end = Integer.parseInt(line[1]);
 
         }
+
+//        FileInputStream fstream = new FileInputStream("/proc/sys/net/ipv4/ip_local_port_range");
+//        DataInputStream in = new DataInputStream(fstream);
+//        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+//        String strLine;
+//        while ((strLine = br.readLine()) != null)   {
+//            StringTokenizer stk = new StringTokenizer(strLine,"\t")
+//        }
         return end - start;
     }
 
