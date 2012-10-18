@@ -1,0 +1,2 @@
+APIs that abstract common JVM/OS resource information that a program that uses system resources intensively would be interested in.
+This file was modified by IntelliJ IDEA 11.1.3 for binding GitHub repository
