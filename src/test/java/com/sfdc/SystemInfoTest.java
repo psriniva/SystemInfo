@@ -29,4 +29,8 @@ public class SystemInfoTest extends TestCase {
     public void testGetOsVersion() {
         System.out.println("OS Version = " + systemInfo.getOSVersion());
     }
+
+    public void testEphemeralPortRange() throws Exception {
+        System.out.println("Ephemeral port count = " + systemInfo.getEphemeralPortCount());
+    }
 }
