@@ -83,14 +83,6 @@ public class SystemInfo {
             end = Integer.parseInt(line[1]);
 
         }
-
-//        FileInputStream fstream = new FileInputStream("/proc/sys/net/ipv4/ip_local_port_range");
-//        DataInputStream in = new DataInputStream(fstream);
-//        BufferedReader br = new BufferedReader(new InputStreamReader(in));
-//        String strLine;
-//        while ((strLine = br.readLine()) != null)   {
-//            StringTokenizer stk = new StringTokenizer(strLine,"\t")
-//        }
         return end - start;
     }
 
