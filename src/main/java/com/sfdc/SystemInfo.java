@@ -1,8 +1,12 @@
 package com.sfdc;
 
+import au.com.bytecode.opencsv.CSVReader;
 import org.slf4j.Logger;
 
 import javax.management.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
 import org.slf4j.Logger;
@@ -35,9 +39,8 @@ public class SystemInfo {
         return ManagementFactory.getOperatingSystemMXBean().getVersion();
     }
 
-    public int getMaxFileDescriptors() throws Exception {
+    public int getMaxFileDescriptorsLinux() throws Exception {
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-        System.out.println(ManagementFactory.getOperatingSystemMXBean().getName());
         ObjectName oName = new ObjectName("java.lang:type=OperatingSystem");
         //AttributeList list = mbs.getAttributes(oName, new String[]{"OpenFileDescriptorCount", "MaxFileDescriptorCount"});
         AttributeList list = mbs.getAttributes(oName, new String[]{"MaxFileDescriptorCount"});
@@ -57,5 +60,37 @@ public class SystemInfo {
 //        }
 //
 //        return 0;
+    }
+
+    public int getMaxFileDescriptors() throws Exception {
+        String os = ManagementFactory.getOperatingSystemMXBean().getName();
+        if (os.equalsIgnoreCase("Linux")) {
+            return getMaxFileDescriptorsLinux();
+        }   else if (os.equalsIgnoreCase("Mac OS X")) {
+            throw new Exception("SystemInfo not implemented for " + os);
+        }
+        return 0;
+    }
+
+    public int getEphemeralPortCountLinux() throws IOException {
+        CSVReader reader = new CSVReader(new FileReader("/proc/sys/net/ipv4/ip_local_port_range"), ' ');
+        String [] line;
+        int start = 0, end = 0;
+        while ((line = reader.readNext()) != null) {
+          start = Integer.parseInt(line[0]);
+            end = Integer.parseInt(line[1]);
+
+        }
+        return end - start;
+    }
+
+    public int getEphemeralPortCount() throws Exception {
+        String os = ManagementFactory.getOperatingSystemMXBean().getName();
+        if (os.equalsIgnoreCase("Linux")) {
+            return getEphemeralPortCountLinux();
+        }   else if (os.equalsIgnoreCase("Mac OS X")) {
+            throw new Exception("SystemInfo not implemented for " + os);
+        }
+        return 0;
     }
 }

@@ -23,10 +23,10 @@ public class SystemInfoTest extends TestCase {
     }
 
     public void testGetOsName() {
-        System.out.println(systemInfo.getOSName());
+        System.out.println("OS Name = " + systemInfo.getOSName());
     }
 
     public void testGetOsVersion() {
-        System.out.println(systemInfo.getOSVersion());
+        System.out.println("OS Version = " + systemInfo.getOSVersion());
     }
 }
