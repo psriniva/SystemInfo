@@ -2,20 +2,20 @@ package com.sfdc;
 
 import au.com.bytecode.opencsv.CSVReader;
 import org.slf4j.Logger;
-
-import javax.management.*;
-import java.io.*;
-import java.lang.management.ManagementFactory;
-import java.util.StringTokenizer;
-
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.management.ManagementFactory;
 
 /**
  * @author psrinivasan
  *         Date: 10/13/12
  *         Time: 6:41 PM
-
  */
 public class SystemInfo {
 
@@ -44,12 +44,12 @@ public class SystemInfo {
         //AttributeList list = mbs.getAttributes(oName, new String[]{"OpenFileDescriptorCount", "MaxFileDescriptorCount"});
         AttributeList list = mbs.getAttributes(oName, new String[]{"MaxFileDescriptorCount"});
         int size;
-        if ( (size = list.size()) != 1) {
+        if ((size = list.size()) != 1) {
             throw new Exception("Expected one JMX attribute, but got " + size);
         }
         Attribute attr = list.asList().get(0);
         if (!attr.getName().equalsIgnoreCase("MaxFileDescriptorCount")) {
-             throw new Exception("Obtained an attribute, but it's not called MaxFileDescriptorCount");
+            throw new Exception("Obtained an attribute, but it's not called MaxFileDescriptorCount");
         }
         return Integer.parseInt(list.asList().get(0).getValue().toString());
 //        System.out.println(list.size());
@@ -65,7 +65,7 @@ public class SystemInfo {
         String os = ManagementFactory.getOperatingSystemMXBean().getName();
         if (os.equalsIgnoreCase("Linux")) {
             return getMaxFileDescriptorsLinux();
-        }   else if (os.equalsIgnoreCase("Mac OS X")) {
+        } else if (os.equalsIgnoreCase("Mac OS X")) {
             throw new Exception("SystemInfo not implemented for " + os);
         }
         return 0;
@@ -73,13 +73,10 @@ public class SystemInfo {
 
     public int getEphemeralPortCountLinux() throws IOException {
         CSVReader reader = new CSVReader(new FileReader("/proc/sys/net/ipv4/ip_local_port_range"), '\t');
-        String [] line;
+        String[] line;
         int start = 0, end = 0;
         while ((line = reader.readNext()) != null) {
-            System.out.println("line is " + line.toString());
-            System.out.println("start is " + start);
-            System.out.println("end is " + end);
-          start = Integer.parseInt(line[0]);
+            start = Integer.parseInt(line[0]);
             end = Integer.parseInt(line[1]);
 
         }
@@ -90,7 +87,7 @@ public class SystemInfo {
         String os = ManagementFactory.getOperatingSystemMXBean().getName();
         if (os.equalsIgnoreCase("Linux")) {
             return getEphemeralPortCountLinux();
-        }   else if (os.equalsIgnoreCase("Mac OS X")) {
+        } else if (os.equalsIgnoreCase("Mac OS X")) {
             throw new Exception("SystemInfo not implemented for " + os);
         }
         return 0;
