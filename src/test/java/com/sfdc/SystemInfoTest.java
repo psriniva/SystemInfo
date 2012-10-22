@@ -17,8 +17,12 @@ public class SystemInfoTest extends TestCase {
 
     }
 
-    public void testGetMaxFileDescriptors() throws Exception {
-        System.out.println("MaxFileDescriptorCount = " + systemInfo.getMaxFileDescriptors());
+    public void testGetMaxFileDescriptors()  {
+        try {
+            System.out.println("MaxFileDescriptorCount = " + systemInfo.getMaxFileDescriptors());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -30,7 +34,11 @@ public class SystemInfoTest extends TestCase {
         System.out.println("OS Version = " + systemInfo.getOSVersion());
     }
 
-    public void testEphemeralPortRange() throws Exception {
-        System.out.println("Ephemeral port count = " + systemInfo.getEphemeralPortCount());
+    public void testEphemeralPortRange()  {
+        try {
+            System.out.println("Ephemeral port count = " + systemInfo.getEphemeralPortCount());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
